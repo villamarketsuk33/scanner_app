@@ -131,46 +131,46 @@
                     </div>
 
                     <!-- Key Metrics Grid -->
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                        <div class="bg-blue-50/80 p-2.5 rounded-xl border border-blue-100">
-                            <span class="block text-[10px] font-bold uppercase text-blue-600/80 mb-0.5">บาร์โค้ด</span>
-                            <span id="displayBarcode" class="font-bold text-blue-900 text-xs sm:text-sm font-mono break-all">-</span>
+                    <div class="grid grid-cols-12 gap-2 sm:gap-2.5">
+                        <div class="col-span-7 sm:col-span-4 bg-blue-50/80 p-2.5 rounded-xl border border-blue-100 overflow-hidden">
+                            <span class="block text-[10px] font-bold uppercase text-blue-600/80 mb-0.5 whitespace-nowrap">บาร์โค้ด</span>
+                            <span id="displayBarcode" class="font-bold text-blue-900 text-xs sm:text-sm font-mono whitespace-nowrap tracking-tight block truncate">-</span>
                         </div>
-                        <div class="bg-emerald-50/80 p-2.5 rounded-xl border border-emerald-100">
-                            <span class="block text-[10px] font-bold uppercase text-emerald-600/80 mb-0.5">รหัสสินค้า</span>
-                            <span id="displayProductCode" class="font-bold text-emerald-900 text-xs sm:text-sm font-mono break-all">-</span>
+                        <div class="col-span-5 sm:col-span-3 bg-emerald-50/80 p-2.5 rounded-xl border border-emerald-100 overflow-hidden">
+                            <span class="block text-[10px] font-bold uppercase text-emerald-600/80 mb-0.5 whitespace-nowrap">รหัสสินค้า</span>
+                            <span id="displayProductCode" class="font-bold text-emerald-900 text-xs sm:text-sm font-mono whitespace-nowrap tracking-tight block truncate">-</span>
                         </div>
-                        <div class="bg-slate-100 p-2.5 rounded-xl border border-slate-200 text-center">
-                            <span class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5">MASTER</span>
-                            <span id="displayMaster" class="font-bold text-slate-800 text-xs sm:text-sm">-</span>
+                        <div class="col-span-6 sm:col-span-2 bg-slate-100 p-2.5 rounded-xl border border-slate-200 text-center overflow-hidden">
+                            <span class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5 whitespace-nowrap">MASTER</span>
+                            <span id="displayMaster" class="font-bold text-slate-800 text-xs sm:text-sm whitespace-nowrap block truncate">-</span>
                         </div>
-                        <div class="bg-amber-50/80 p-2.5 rounded-xl border border-amber-100 text-center">
-                            <span class="block text-[10px] font-bold uppercase text-amber-700/80 mb-0.5">สถานะ</span>
-                            <span id="displayStatus" class="font-bold text-amber-800 text-xs sm:text-sm">-</span>
+                        <div class="col-span-6 sm:col-span-3 bg-amber-50/80 p-2.5 rounded-xl border border-amber-100 text-center overflow-hidden">
+                            <span class="block text-[10px] font-bold uppercase text-amber-700/80 mb-0.5 whitespace-nowrap">สถานะ</span>
+                            <span id="displayStatus" class="font-bold text-amber-800 text-xs sm:text-sm whitespace-nowrap block truncate">-</span>
                         </div>
                     </div>
 
                     <!-- Department & Vendor Info -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                        <div class="bg-purple-50/80 p-2.5 rounded-xl border border-purple-100 flex flex-col justify-center">
-                            <span class="block text-[10px] font-bold uppercase text-purple-600/80 mb-0.5">แผนก</span>
-                            <span id="displayDept" class="font-bold text-purple-900 text-xs sm:text-sm">-</span>
+                        <div class="bg-purple-50/80 p-2.5 rounded-xl border border-purple-100 flex flex-col justify-center overflow-hidden">
+                            <span class="block text-[10px] font-bold uppercase text-purple-600/80 mb-0.5 whitespace-nowrap">แผนก</span>
+                            <span id="displayDept" class="font-bold text-purple-900 text-xs sm:text-sm whitespace-nowrap truncate">-</span>
                         </div>
-                        <div class="bg-orange-50/80 p-2.5 rounded-xl border border-orange-100 sm:col-span-2 flex flex-col justify-center">
-                            <span class="block text-[10px] font-bold uppercase text-orange-600/80 mb-0.5">ผู้ขาย (รหัส : ชื่อ)</span>
-                            <span id="displayVendor" class="font-bold text-orange-900 text-xs sm:text-sm break-words">-</span>
+                        <div class="bg-orange-50/80 p-2.5 rounded-xl border border-orange-100 sm:col-span-2 flex flex-col justify-center overflow-hidden">
+                            <span class="block text-[10px] font-bold uppercase text-orange-600/80 mb-0.5 whitespace-nowrap">ผู้ขาย (รหัส : ชื่อ)</span>
+                            <span id="displayVendor" class="font-bold text-orange-900 text-xs sm:text-sm whitespace-nowrap truncate">-</span>
                         </div>
                     </div>
 
                     <!-- Location Cards -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                        <div class="bg-teal-50/90 p-3 rounded-xl border-l-4 border-teal-500 border-t border-r border-b border-teal-100">
-                            <span class="block text-teal-700 text-[10px] font-bold uppercase tracking-wider mb-0.5">Location (คลัง / Warehouse)</span>
-                            <span id="displayLocationWH" class="font-bold text-xs sm:text-sm text-teal-900 break-all font-mono">-</span>
+                        <div class="bg-teal-50/90 p-3 rounded-xl border-l-4 border-teal-500 border-t border-r border-b border-teal-100 overflow-hidden">
+                            <span class="block text-teal-700 text-[10px] font-bold uppercase tracking-wider mb-0.5 whitespace-nowrap">Location (คลัง / Warehouse)</span>
+                            <span id="displayLocationWH" class="font-bold text-xs sm:text-sm text-teal-900 whitespace-nowrap truncate font-mono block">-</span>
                         </div>
-                        <div class="bg-cyan-50/90 p-3 rounded-xl border-l-4 border-cyan-500 border-t border-r border-b border-cyan-100">
-                            <span class="block text-cyan-700 text-[10px] font-bold uppercase tracking-wider mb-0.5">Location (หน้าร้าน / Store Front)</span>
-                            <span id="displayLocationShop" class="font-bold text-xs sm:text-sm text-cyan-900 break-all font-mono">-</span>
+                        <div class="bg-cyan-50/90 p-3 rounded-xl border-l-4 border-cyan-500 border-t border-r border-b border-cyan-100 overflow-hidden">
+                            <span class="block text-cyan-700 text-[10px] font-bold uppercase tracking-wider mb-0.5 whitespace-nowrap">Location (หน้าร้าน / Store Front)</span>
+                            <span id="displayLocationShop" class="font-bold text-xs sm:text-sm text-cyan-900 whitespace-nowrap truncate font-mono block">-</span>
                         </div>
                     </div>
                 </div>
@@ -447,14 +447,29 @@
             const vendorName = (row[COL_INDEX.VENDOR_NAME] || "-").toString().trim();
             const vendorDisplay = (vendorId !== "-" || vendorName !== "-") ? `${vendorId} : ${vendorName}` : "-";
 
-            document.getElementById('displayBarcode').textContent = (row[COL_INDEX.BARCODE] || "-").toString().trim();
+            const barcodeVal = (row[COL_INDEX.BARCODE] || "-").toString().trim();
+            const locationWHVal = (row[COL_INDEX.LOCATION_WH] || "-").toString().trim();
+            const locationShopVal = (row[COL_INDEX.LOCATION_SHOP] || "-").toString().trim();
+
+            document.getElementById('displayBarcode').textContent = barcodeVal;
+            document.getElementById('displayBarcode').title = barcodeVal;
+            
             document.getElementById('displayProductCode').textContent = pCode;
-            document.getElementById('displayLocationWH').textContent = (row[COL_INDEX.LOCATION_WH] || "-").toString().trim();
-            document.getElementById('displayLocationShop').textContent = (row[COL_INDEX.LOCATION_SHOP] || "-").toString().trim();
+            document.getElementById('displayProductCode').title = pCode;
+            
+            document.getElementById('displayLocationWH').textContent = locationWHVal;
+            document.getElementById('displayLocationWH').title = locationWHVal;
+            
+            document.getElementById('displayLocationShop').textContent = locationShopVal;
+            document.getElementById('displayLocationShop').title = locationShopVal;
+            
             document.getElementById('productName').textContent = row[COL_INDEX.NAME] || "-";
             document.getElementById('displayRetailPrice').textContent = formattedPrice;
             document.getElementById('displayDept').textContent = deptFormatted;
+            
             document.getElementById('displayVendor').textContent = vendorDisplay;
+            document.getElementById('displayVendor').title = vendorDisplay;
+            
             document.getElementById('displayMaster').textContent = (row[COL_INDEX.MASTER] || "-").toString().trim();
             document.getElementById('displayStatus').textContent = (row[COL_INDEX.STATUS_ITEM] || "-").toString().trim();
 
