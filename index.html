@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="h-full overflow-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -16,22 +16,25 @@
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
     <style>
-        body {
-            background-color: #f8fafc;
+        html, body {
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            background-color: #f1f5f9;
             font-family: 'Sarabun', 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
         .scan-input:focus {
             outline: none;
             border-color: #2563eb;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
         .loading-spinner {
             border: 3px solid #f3f4f6;
             border-top: 3px solid #2563eb;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin {
@@ -43,193 +46,212 @@
             border-radius: 0.75rem;
         }
         .animate-fade-in {
-            animation: fadeIn 0.25s ease-out forwards;
+            animation: fadeIn 0.2s ease-out forwards;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-2 px-2 sm:py-6 sm:px-4 text-slate-800">
+<body class="h-full flex flex-col justify-center items-center p-1.5 sm:p-3 text-slate-800 antialiased select-none">
 
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl overflow-hidden border border-slate-100 flex flex-col">
-        <!-- Header Bar -->
-        <div class="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 p-3.5 sm:p-5 text-white flex justify-between items-center shadow-sm">
-            <div class="flex items-center space-x-3">
-                <div class="bg-white/15 p-2 rounded-xl backdrop-blur-md">
-                    <i class="fas fa-barcode text-lg sm:text-2xl text-blue-100"></i>
+    <!-- Main Single Screen Container -->
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-full max-h-[100dvh] flex flex-col overflow-hidden border border-slate-200">
+        
+        <!-- Header Bar (Compact) -->
+        <header class="flex-none bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 px-3 py-2 sm:px-5 sm:py-3 text-white flex justify-between items-center shadow-md z-10">
+            <div class="flex items-center space-x-2.5">
+                <div class="bg-white/15 p-1.5 rounded-lg backdrop-blur-md flex items-center justify-center">
+                    <i class="fas fa-barcode text-base sm:text-xl text-blue-100"></i>
                 </div>
                 <div>
-                    <h1 class="text-base sm:text-xl font-bold tracking-tight">ระบบสแกนตรวจสอบรายละเอียดสินค้า</h1>
-                    <p class="text-[10px] sm:text-xs text-blue-100 font-light">Villa Market Sukhumvit 33 • GitHub Pages Edition</p>
+                    <h1 class="text-sm sm:text-lg font-bold leading-tight tracking-tight">ระบบสแกนตรวจสอบรายละเอียดสินค้า</h1>
+                    <p class="text-[9px] sm:text-xs text-blue-100 font-light leading-none">Villa Market Sukhumvit 33 • GitHub Pages Edition</p>
                 </div>
             </div>
             <!-- Status Light Indicator -->
-            <div class="flex items-center bg-white/10 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full backdrop-blur-sm" id="statusContainer" title="สถานะการเชื่อมต่อ Google Sheets">
-                <div id="statusLight" class="w-3 h-3 rounded-full bg-amber-400 animate-pulse mr-2"></div>
-                <span id="statusText" class="text-[10px] sm:text-xs font-medium text-blue-50">กำลังเชื่อมต่อ...</span>
+            <div class="flex items-center bg-white/10 px-2 py-1 rounded-full backdrop-blur-sm" id="statusContainer" title="สถานะการเชื่อมต่อ Google Sheets">
+                <div id="statusLight" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse mr-1.5"></div>
+                <span id="statusText" class="text-[9px] sm:text-xs font-medium text-blue-50">กำลังเชื่อมต่อ...</span>
             </div>
-        </div>
+        </header>
 
-        <!-- Search & Mode Controls -->
-        <div class="p-3.5 sm:p-5 bg-slate-50/60 border-b border-slate-200/80">
-            <!-- Search Mode Tabs -->
-            <div class="flex items-center justify-between mb-3">
-                <div class="inline-flex p-1 bg-slate-200/70 rounded-xl w-full sm:w-auto text-xs font-semibold text-slate-600">
-                    <label class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 sm:py-1.5 rounded-lg cursor-pointer transition-all has-[:checked]:bg-white has-[:checked]:text-blue-700 has-[:checked]:shadow-sm">
+        <!-- Search Controls Box -->
+        <section class="flex-none p-2 sm:p-3 bg-slate-50 border-b border-slate-200">
+            <!-- Modes & Input Flexbox -->
+            <div class="flex flex-col sm:flex-row gap-1.5 sm:gap-2 items-stretch sm:items-center">
+                <!-- Radio Tabs -->
+                <div class="inline-flex p-0.5 bg-slate-200/80 rounded-lg text-[11px] font-semibold text-slate-600 flex-none">
+                    <label class="flex-1 sm:flex-none inline-flex items-center justify-center px-2.5 py-1 rounded-md cursor-pointer transition-all has-[:checked]:bg-white has-[:checked]:text-blue-700 has-[:checked]:shadow-sm">
                         <input type="radio" name="searchMode" value="barcode" checked class="hidden" onchange="updateInputPlaceholder('barcode')">
-                        <i class="fas fa-barcode mr-1.5 text-sm"></i>
+                        <i class="fas fa-barcode mr-1 text-xs"></i>
                         <span>ค้นด้วยบาร์โค้ด</span>
                     </label>
-                    <label class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 sm:py-1.5 rounded-lg cursor-pointer transition-all has-[:checked]:bg-white has-[:checked]:text-emerald-700 has-[:checked]:shadow-sm">
+                    <label class="flex-1 sm:flex-none inline-flex items-center justify-center px-2.5 py-1 rounded-md cursor-pointer transition-all has-[:checked]:bg-white has-[:checked]:text-emerald-700 has-[:checked]:shadow-sm">
                         <input type="radio" name="searchMode" value="productCode" class="hidden" onchange="updateInputPlaceholder('productCode')">
-                        <i class="fas fa-tag mr-1.5 text-sm"></i>
+                        <i class="fas fa-tag mr-1 text-xs"></i>
                         <span>ค้นด้วยรหัสสินค้า</span>
                     </label>
                 </div>
-            </div>
 
-            <!-- Input Controls Box -->
-            <div class="flex flex-col sm:flex-row gap-2">
-                <div class="relative flex-1">
-                    <input type="text" id="barcodeInput" 
-                        inputmode="text" 
-                        enterkeyhint="search"
-                        class="scan-input w-full text-base sm:text-lg p-3 pr-12 border border-slate-300 rounded-xl text-center font-mono shadow-sm bg-white transition-all placeholder:text-slate-400 placeholder:font-sans placeholder:text-sm" 
-                        placeholder="คลิกที่นี่แล้วยิงบาร์โค้ด..." 
-                        autofocus>
-                    <!-- Camera Button inside Input -->
-                    <button onclick="startScanner()" title="เปิดกล้องสแกน" class="absolute right-1.5 top-1.5 bottom-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white px-3.5 rounded-lg transition-all flex items-center justify-center shadow-sm">
-                        <i class="fas fa-camera text-base"></i>
+                <!-- Input Field Row -->
+                <div class="flex flex-1 gap-1.5">
+                    <div class="relative flex-1">
+                        <input type="text" id="barcodeInput" 
+                            inputmode="text" 
+                            enterkeyhint="search"
+                            class="scan-input w-full text-sm sm:text-base py-1.5 pl-3 pr-10 border border-slate-300 rounded-lg text-center font-mono bg-white shadow-inner transition-all placeholder:text-slate-400 placeholder:font-sans placeholder:text-xs" 
+                            placeholder="คลิกที่นี่แล้วยิงบาร์โค้ด..." 
+                            autofocus>
+                        <!-- Camera Button -->
+                        <button onclick="startScanner()" title="เปิดกล้องสแกน" class="absolute right-1 top-1 bottom-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white px-2.5 rounded-md transition-all flex items-center justify-center shadow-sm">
+                            <i class="fas fa-camera text-xs"></i>
+                        </button>
+                    </div>
+                    <!-- Search Button -->
+                    <button onclick="processSearch()" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-4 py-1.5 rounded-lg font-semibold text-xs sm:text-sm flex items-center justify-center space-x-1.5 shadow-sm transition-all flex-none">
+                        <i class="fas fa-search text-xs"></i>
+                        <span>ค้นหา</span>
                     </button>
                 </div>
-                <!-- Search Action Button -->
-                <button onclick="processSearch()" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-6 py-3 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 shadow-md shadow-blue-500/20 transition-all min-h-[46px]">
-                    <i class="fas fa-search text-base"></i>
-                    <span>ค้นหา</span>
-                </button>
             </div>
-        </div>
+        </section>
 
-        <!-- Result Display Section -->
-        <div id="resultContainer" class="hidden animate-fade-in">
-            <div class="lg:grid lg:grid-cols-12 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
-                
-                <!-- Product Information (Left/Top 7 Columns) -->
-                <div class="lg:col-span-7 p-4 sm:p-6 space-y-4">
-                    <!-- Title and Price Row -->
-                    <div class="border-b border-slate-100 pb-4 flex flex-col sm:flex-row justify-between items-start gap-3">
-                        <div class="flex-1 w-full">
-                            <span class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">ชื่อสินค้า (Product Name)</span>
-                            <h2 id="productName" class="text-lg sm:text-2xl font-bold text-slate-900 leading-snug break-words">-</h2>
-                        </div>
-                        <div class="w-full sm:w-auto bg-gradient-to-br from-red-50 to-rose-100/70 p-3 rounded-xl border-l-4 border-red-500 flex sm:flex-col justify-between items-center sm:items-end flex-none shadow-sm min-w-[130px]">
-                            <span class="text-xs font-bold text-red-600 uppercase tracking-wide">ราคาปลีก</span>
-                            <span id="displayRetailPrice" class="font-extrabold text-xl sm:text-2xl text-red-700 tracking-tight">-</span>
-                        </div>
-                    </div>
-
-                    <!-- Key Metrics Grid -->
-                    <div class="grid grid-cols-12 gap-2 sm:gap-2.5">
-                        <div class="col-span-7 sm:col-span-4 bg-blue-50/80 p-2.5 rounded-xl border border-blue-100 overflow-hidden">
-                            <span class="block text-[10px] font-bold uppercase text-blue-600/80 mb-0.5 whitespace-nowrap">บาร์โค้ด</span>
-                            <span id="displayBarcode" class="font-bold text-blue-900 text-xs sm:text-sm font-mono whitespace-nowrap tracking-tight block truncate">-</span>
-                        </div>
-                        <div class="col-span-5 sm:col-span-3 bg-emerald-50/80 p-2.5 rounded-xl border border-emerald-100 overflow-hidden">
-                            <span class="block text-[10px] font-bold uppercase text-emerald-600/80 mb-0.5 whitespace-nowrap">รหัสสินค้า</span>
-                            <span id="displayProductCode" class="font-bold text-emerald-900 text-xs sm:text-sm font-mono whitespace-nowrap tracking-tight block truncate">-</span>
-                        </div>
-                        <div class="col-span-6 sm:col-span-2 bg-slate-100 p-2.5 rounded-xl border border-slate-200 text-center overflow-hidden">
-                            <span class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5 whitespace-nowrap">MASTER</span>
-                            <span id="displayMaster" class="font-bold text-slate-800 text-xs sm:text-sm whitespace-nowrap block truncate">-</span>
-                        </div>
-                        <div class="col-span-6 sm:col-span-3 bg-amber-50/80 p-2.5 rounded-xl border border-amber-100 text-center overflow-hidden">
-                            <span class="block text-[10px] font-bold uppercase text-amber-700/80 mb-0.5 whitespace-nowrap">สถานะ</span>
-                            <span id="displayStatus" class="font-bold text-amber-800 text-xs sm:text-sm whitespace-nowrap block truncate">-</span>
-                        </div>
-                    </div>
-
-                    <!-- Department & Vendor Info -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                        <div class="bg-purple-50/80 p-2.5 rounded-xl border border-purple-100 flex flex-col justify-center overflow-hidden">
-                            <span class="block text-[10px] font-bold uppercase text-purple-600/80 mb-0.5 whitespace-nowrap">แผนก</span>
-                            <span id="displayDept" class="font-bold text-purple-900 text-xs sm:text-sm whitespace-nowrap truncate">-</span>
-                        </div>
-                        <div class="bg-orange-50/80 p-2.5 rounded-xl border border-orange-100 sm:col-span-2 flex flex-col justify-center overflow-hidden">
-                            <span class="block text-[10px] font-bold uppercase text-orange-600/80 mb-0.5 whitespace-nowrap">ผู้ขาย (รหัส : ชื่อ)</span>
-                            <span id="displayVendor" class="font-bold text-orange-900 text-xs sm:text-sm whitespace-nowrap truncate">-</span>
-                        </div>
-                    </div>
-
-                    <!-- Location Cards -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                        <div class="bg-teal-50/90 p-3 rounded-xl border-l-4 border-teal-500 border-t border-r border-b border-teal-100 overflow-hidden">
-                            <span class="block text-teal-700 text-[10px] font-bold uppercase tracking-wider mb-0.5 whitespace-nowrap">Location (คลัง / Warehouse)</span>
-                            <span id="displayLocationWH" class="font-bold text-xs sm:text-sm text-teal-900 whitespace-nowrap truncate font-mono block">-</span>
-                        </div>
-                        <div class="bg-cyan-50/90 p-3 rounded-xl border-l-4 border-cyan-500 border-t border-r border-b border-cyan-100 overflow-hidden">
-                            <span class="block text-cyan-700 text-[10px] font-bold uppercase tracking-wider mb-0.5 whitespace-nowrap">Location (หน้าร้าน / Store Front)</span>
-                            <span id="displayLocationShop" class="font-bold text-xs sm:text-sm text-cyan-900 whitespace-nowrap truncate font-mono block">-</span>
-                        </div>
-                    </div>
+        <!-- Dynamic Main Content Area (Fills remaining height) -->
+        <main class="flex-1 min-h-0 relative bg-white overflow-hidden flex flex-col justify-center">
+            
+            <!-- Default Welcome State -->
+            <div id="initialState" class="p-4 text-center text-slate-400 flex flex-col items-center justify-center h-full">
+                <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mb-2">
+                    <i class="fas fa-barcode text-xl"></i>
                 </div>
+                <p class="text-xs sm:text-sm font-medium text-slate-600">พร้อมรับการสแกนบาร์โค้ดหรือป้อนรหัสสินค้า</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">ยิงบาร์โค้ดด้วยเครื่องยิง หรือกดไอคอนกล้องเพื่อสแกนด้วยมือถือ</p>
+            </div>
 
-                <!-- Product Image Container (Right 5 Columns) -->
-                <div class="lg:col-span-5 bg-slate-50 p-5 flex justify-center items-center flex-col min-h-[260px] relative">
-                    <div id="imageLoader" class="hidden loading-spinner mb-3"></div>
-                    <img id="productImage" src="" alt="Product Image" class="max-h-64 sm:max-h-72 w-auto max-w-full rounded-xl shadow-md object-contain transition-all hidden">
-                    <div id="imageError" class="text-slate-400 text-xs hidden flex flex-col items-center text-center py-8">
-                        <div class="w-16 h-16 rounded-full bg-slate-200/70 flex items-center justify-center mb-2">
-                            <i class="fas fa-image text-slate-400 text-2xl"></i>
+            <!-- Result Display Section (2-Column Side-by-Side Fit Layout) -->
+            <div id="resultContainer" class="hidden h-full w-full p-2 sm:p-3 animate-fade-in overflow-hidden">
+                <div class="grid grid-cols-12 h-full gap-2 sm:gap-3 items-stretch">
+                    
+                    <!-- Left Column: Product Info (7 Cols) -->
+                    <div class="col-span-7 sm:col-span-7 flex flex-col justify-between h-full overflow-hidden space-y-1.5">
+                        
+                        <!-- Title & Price Block -->
+                        <div class="bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-100 flex flex-col justify-between space-y-1 flex-none">
+                            <div>
+                                <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400">ชื่อสินค้า (Product Name)</span>
+                                <h2 id="productName" class="text-xs sm:text-base font-bold text-slate-900 leading-tight line-clamp-2 break-words">-</h2>
+                            </div>
+                            <div class="bg-gradient-to-r from-red-50 to-rose-100/80 px-2.5 py-1 rounded-lg border-l-4 border-red-500 flex justify-between items-center shadow-2xs">
+                                <span class="text-[10px] sm:text-xs font-bold text-red-600 uppercase">ราคาปลีก</span>
+                                <span id="displayRetailPrice" class="font-extrabold text-sm sm:text-xl text-red-700 tracking-tight">-</span>
+                            </div>
                         </div>
-                        <span class="font-medium text-slate-500">ไม่พบรูปภาพสินค้าในระบบ</span>
-                        <span id="imageErrorCode" class="text-[10px] text-slate-400 mt-1 font-mono"></span>
+
+                        <!-- Metrics Grid -->
+                        <div class="grid grid-cols-12 gap-1.5 flex-none">
+                            <div class="col-span-6 bg-blue-50/80 p-1.5 sm:p-2 rounded-lg border border-blue-100 overflow-hidden">
+                                <span class="block text-[9px] font-bold uppercase text-blue-600/80 leading-none mb-0.5">บาร์โค้ด</span>
+                                <span id="displayBarcode" class="font-bold text-blue-900 text-[11px] sm:text-xs font-mono block truncate tracking-tight">-</span>
+                            </div>
+                            <div class="col-span-6 bg-emerald-50/80 p-1.5 sm:p-2 rounded-lg border border-emerald-100 overflow-hidden">
+                                <span class="block text-[9px] font-bold uppercase text-emerald-600/80 leading-none mb-0.5">รหัสสินค้า</span>
+                                <span id="displayProductCode" class="font-bold text-emerald-900 text-[11px] sm:text-xs font-mono block truncate tracking-tight">-</span>
+                            </div>
+                            <div class="col-span-6 bg-slate-100/80 p-1.5 sm:p-2 rounded-lg border border-slate-200 text-center overflow-hidden">
+                                <span class="block text-[9px] font-bold uppercase text-slate-500 leading-none mb-0.5">MASTER</span>
+                                <span id="displayMaster" class="font-bold text-slate-800 text-[11px] sm:text-xs block truncate">-</span>
+                            </div>
+                            <div class="col-span-6 bg-amber-50/80 p-1.5 sm:p-2 rounded-lg border border-amber-100 text-center overflow-hidden">
+                                <span class="block text-[9px] font-bold uppercase text-amber-700/80 leading-none mb-0.5">สถานะ</span>
+                                <span id="displayStatus" class="font-bold text-amber-800 text-[11px] sm:text-xs block truncate">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Department & Vendor Info -->
+                        <div class="grid grid-cols-12 gap-1.5 flex-none">
+                            <div class="col-span-4 bg-purple-50/80 p-1.5 sm:p-2 rounded-lg border border-purple-100 overflow-hidden">
+                                <span class="block text-[9px] font-bold uppercase text-purple-600/80 leading-none mb-0.5">แผนก</span>
+                                <span id="displayDept" class="font-bold text-purple-900 text-[11px] sm:text-xs block truncate">-</span>
+                            </div>
+                            <div class="col-span-8 bg-orange-50/80 p-1.5 sm:p-2 rounded-lg border border-orange-100 overflow-hidden">
+                                <span class="block text-[9px] font-bold uppercase text-orange-600/80 leading-none mb-0.5">ผู้ขาย (รหัส : ชื่อ)</span>
+                                <span id="displayVendor" class="font-bold text-orange-900 text-[11px] sm:text-xs block truncate">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Location Cards -->
+                        <div class="grid grid-cols-2 gap-1.5 flex-none">
+                            <div class="bg-teal-50/90 p-1.5 sm:p-2 rounded-lg border-l-3 border-teal-500 border-t border-r border-b border-teal-100 overflow-hidden">
+                                <span class="block text-teal-700 text-[9px] font-bold uppercase leading-none mb-0.5">LOC (คลัง WH)</span>
+                                <span id="displayLocationWH" class="font-bold text-[10px] sm:text-xs text-teal-900 font-mono block truncate">-</span>
+                            </div>
+                            <div class="bg-cyan-50/90 p-1.5 sm:p-2 rounded-lg border-l-3 border-cyan-500 border-t border-r border-b border-cyan-100 overflow-hidden">
+                                <span class="block text-cyan-700 text-[9px] font-bold uppercase leading-none mb-0.5">LOC (หน้าร้าน)</span>
+                                <span id="displayLocationShop" class="font-bold text-[10px] sm:text-xs text-cyan-900 font-mono block truncate">-</span>
+                            </div>
+                        </div>
+
                     </div>
+
+                    <!-- Right Column: Product Image Container (5 Cols) -->
+                    <div class="col-span-5 sm:col-span-5 bg-slate-50 border border-slate-200/80 rounded-xl p-2 flex justify-center items-center flex-col h-full overflow-hidden relative">
+                        <div id="imageLoader" class="hidden loading-spinner"></div>
+                        <img id="productImage" src="" alt="Product Image" class="max-h-full max-w-full rounded-lg shadow-sm object-contain transition-all hidden">
+                        <div id="imageError" class="text-slate-400 text-xs hidden flex flex-col items-center text-center p-2">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-200/70 flex items-center justify-center mb-1">
+                                <i class="fas fa-image text-slate-400 text-lg sm:text-xl"></i>
+                            </div>
+                            <span class="font-medium text-[11px] text-slate-500">ไม่พบรูปภาพ</span>
+                            <span id="imageErrorCode" class="text-[9px] text-slate-400 font-mono"></span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
 
-        <!-- Error Message View -->
-        <div id="errorContainer" class="hidden p-8 sm:p-12 text-center animate-fade-in">
-            <div class="w-16 h-16 rounded-full bg-red-100 text-red-500 flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-search-minus text-2xl"></i>
+            <!-- Error Message View -->
+            <div id="errorContainer" class="hidden p-6 text-center animate-fade-in flex flex-col items-center justify-center h-full">
+                <div class="w-12 h-12 rounded-full bg-red-100 text-red-500 flex items-center justify-center mb-2">
+                    <i class="fas fa-search-minus text-xl"></i>
+                </div>
+                <h3 class="text-base font-bold text-slate-800">ไม่พบข้อมูลสินค้า</h3>
+                <p id="errorText" class="text-xs text-slate-500 mt-1">บาร์โค้ดนี้ไม่มีอยู่ในฐานข้อมูลระบบ</p>
             </div>
-            <h3 class="text-lg font-bold text-slate-800">ไม่พบข้อมูลสินค้า</h3>
-            <p id="errorText" class="text-xs sm:text-sm text-slate-500 mt-1">บาร์โค้ดนี้ไม่มีอยู่ในฐานข้อมูลระบบ</p>
-        </div>
+        </main>
     </div>
 
     <!-- Fullscreen Camera Overlay -->
     <div id="scannerOverlay" class="hidden fixed inset-0 z-50 bg-slate-950 flex flex-col justify-between">
-        <div class="flex justify-between items-center p-3 sm:p-4 bg-slate-900 border-b border-slate-800 text-white flex-none">
+        <div class="flex justify-between items-center p-3 bg-slate-900 border-b border-slate-800 text-white flex-none">
             <div class="flex items-center space-x-2">
                 <i class="fas fa-camera text-indigo-400"></i>
                 <span class="font-semibold text-xs sm:text-sm">วางบาร์โค้ดให้อยู่ในกรอบสแกน</span>
             </div>
-            <button onclick="stopScanner()" class="bg-rose-600 hover:bg-rose-700 active:scale-95 text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-md transition-all">
+            <button onclick="stopScanner()" class="bg-rose-600 hover:bg-rose-700 active:scale-95 text-white px-3 py-1 rounded-lg text-xs font-semibold shadow-md transition-all">
                 ปิดกล้อง <i class="fas fa-times ml-1"></i>
             </button>
         </div>
         
-        <div class="flex-1 w-full bg-black flex justify-center items-center relative overflow-hidden p-3">
-            <div id="reader" class="w-full max-w-sm sm:max-w-md rounded-2xl overflow-hidden shadow-2xl border-2 border-indigo-500/30"></div>
+        <div class="flex-1 w-full bg-black flex justify-center items-center relative overflow-hidden p-2">
+            <div id="reader" class="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border-2 border-indigo-500/30"></div>
         </div>
         
-        <div class="p-3 bg-slate-900 border-t border-slate-800 text-slate-400 text-[11px] text-center flex-none">
-            <i class="fas fa-lightbulb text-amber-400 mr-1"></i> คำแนะนำ: วางมือถือให้นิ่งในบริเวณที่มีแสงสว่างเพียงพอ
+        <div class="p-2.5 bg-slate-900 border-t border-slate-800 text-slate-400 text-[10px] text-center flex-none">
+            <i class="fas fa-lightbulb text-amber-400 mr-1"></i> วางมือถือให้นิ่งในบริเวณที่มีแสงสว่างเพียงพอ
         </div>
     </div>
 
-    <!-- Custom Modal Dialog (Replaces alert) -->
-    <div id="modalNotice" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-100 text-center animate-fade-in">
-            <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-exclamation-triangle text-xl"></i>
+    <!-- Custom Modal Dialog -->
+    <div id="modalNotice" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex justify-center items-center p-4">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-4 shadow-2xl border border-slate-100 text-center animate-fade-in">
+            <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-2">
+                <i class="fas fa-exclamation-triangle text-lg"></i>
             </div>
-            <h4 id="modalTitle" class="text-base font-bold text-slate-900 mb-1">แจ้งเตือน</h4>
-            <p id="modalMessage" class="text-xs sm:text-sm text-slate-600 mb-5 leading-relaxed">-</p>
-            <button onclick="closeModalNotice()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition-all shadow-md">
+            <h4 id="modalTitle" class="text-sm font-bold text-slate-900 mb-1">แจ้งเตือน</h4>
+            <p id="modalMessage" class="text-xs text-slate-600 mb-4 leading-relaxed">-</p>
+            <button onclick="closeModalNotice()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl text-xs transition-all shadow-md">
                 ตกลง
             </button>
         </div>
@@ -271,7 +293,6 @@
         let isDataLoaded = false;
         let html5QrCode = null;
 
-        // --- STREAMING_CHUNK:Setting up window load handlers and input listeners... ---
         window.onload = function() {
             fetchSheetData();
             
@@ -280,7 +301,6 @@
                 if (event.key === 'Enter') processSearch(); 
             });
             
-            // Auto focus on document click if not scanning
             document.addEventListener('click', (e) => {
                 if(!document.getElementById('scannerOverlay').classList.contains('hidden')) return;
                 if(!document.getElementById('modalNotice').classList.contains('hidden')) return;
@@ -292,7 +312,6 @@
             updateInputPlaceholder('barcode');
         };
 
-        // --- STREAMING_CHUNK:Updating search input placeholders and modes... ---
         function updateInputPlaceholder(mode) {
             const inputEl = document.getElementById('barcodeInput');
             inputEl.placeholder = (mode === 'barcode') ? "คลิกที่นี่แล้วยิงบาร์โค้ด..." : "ป้อนรหัสสินค้า (Product Code)...";
@@ -311,7 +330,6 @@
             document.getElementById('barcodeInput').focus();
         }
 
-        // --- STREAMING_CHUNK:Fetching CSV spreadsheet data asynchronously... ---
         function fetchSheetData() {
             const statusLight = document.getElementById('statusLight');
             const statusText = document.getElementById('statusText');
@@ -328,22 +346,21 @@
                         productData = rawData.slice(1);
                         isDataLoaded = true;
                         
-                        statusLight.className = "w-3 h-3 rounded-full bg-emerald-500 mr-2";
+                        statusLight.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 mr-1.5";
                         statusText.textContent = `พร้อมใช้งาน (${productData.length.toLocaleString()} รายการ)`;
                     } else {
-                        statusLight.className = "w-3 h-3 rounded-full bg-rose-500 mr-2";
+                        statusLight.className = "w-2.5 h-2.5 rounded-full bg-rose-500 mr-1.5";
                         statusText.textContent = "ไม่พบข้อมูล";
                     }
                 },
                 error: function(err) { 
                     console.error("Fetch sheet error:", err);
-                    statusLight.className = "w-3 h-3 rounded-full bg-rose-500 mr-2";
+                    statusLight.className = "w-2.5 h-2.5 rounded-full bg-rose-500 mr-1.5";
                     statusText.textContent = "เชื่อมต่อล้มเหลว";
                 }
             });
         }
 
-        // --- STREAMING_CHUNK:Mapping column names to indices... ---
         function mapColumnIndices(headerRow) {
             headerRow.forEach((colName, index) => {
                 if (!colName) return;
@@ -358,7 +375,6 @@
             });
         }
 
-        // --- STREAMING_CHUNK:Executing barcode and product code lookup algorithm... ---
         async function processSearch() {
             const inputEl = document.getElementById('barcodeInput');
             const rawInput = inputEl.value.trim();
@@ -380,10 +396,8 @@
                 if (sheetVal === rawInput) return true;
                 
                 if (selectedMode === 'barcode') {
-                    // Match with leading zero removed
                     if (sheetVal === rawInput.replace(/^0+/, '')) return true;
                     
-                    // Match with trailing digit stripped
                     let legacyVal = rawInput;
                     if (legacyVal.startsWith('0')) legacyVal = legacyVal.substring(1);
                     if (legacyVal.length > 0) legacyVal = legacyVal.slice(0, -1);
@@ -392,7 +406,6 @@
                 }
                 
                 if (selectedMode === 'productCode') {
-                    // Padded product code match (7 digits)
                     const paddedInput = rawInput.padStart(7, '0');
                     if (sheetVal.padStart(7, '0') === paddedInput) return true;
                 }
@@ -401,7 +414,6 @@
             });
 
             if (foundRow) {
-                // Secondary check for master mapping column E and AB
                 const COL_E = 4; 
                 const COL_AB = 27; 
                 let valE = foundRow[COL_E] ? foundRow[COL_E].toString().trim() : "";
@@ -423,8 +435,8 @@
             inputEl.focus(); 
         }
 
-        // --- STREAMING_CHUNK:Formatting currency and displaying search results... ---
         function showResult(row) {
+            document.getElementById('initialState').classList.add('hidden');
             document.getElementById('resultContainer').classList.remove('hidden');
             document.getElementById('errorContainer').classList.add('hidden');
 
@@ -481,12 +493,14 @@
         }
 
         function showError(original, type) {
+            document.getElementById('initialState').classList.add('hidden');
             document.getElementById('resultContainer').classList.add('hidden');
             document.getElementById('errorContainer').classList.remove('hidden');
             document.getElementById('errorText').innerHTML = `ไม่พบข้อมูล ${type}: <strong class="text-slate-700 font-mono">${original}</strong>`;
         }
 
         function resetDisplay() {
+            document.getElementById('initialState').classList.add('hidden');
             document.getElementById('resultContainer').classList.add('hidden');
             document.getElementById('errorContainer').classList.add('hidden');
             
@@ -500,7 +514,6 @@
             document.getElementById('imageLoader').classList.add('hidden');
         }
 
-        // --- STREAMING_CHUNK:Querying Google Drive API for product images... ---
         async function findImageInDrive(productCode) {
             const imageEl = document.getElementById('productImage');
             const loader = document.getElementById('imageLoader');
@@ -521,7 +534,6 @@
                 if (data.files && data.files.length > 0) {
                     const fileId = data.files[0].id;
                     
-                    // Clear previous event listeners to prevent duplicate triggers
                     imageEl.onerror = null;
                     imageEl.onload = null;
 
@@ -560,7 +572,6 @@
             if(errorCodeEl) errorCodeEl.textContent = code ? `(${code})` : '';
         }
 
-        // --- STREAMING_CHUNK:Controlling camera barcode scanner functionality... ---
         function startScanner() {
             document.getElementById('scannerOverlay').classList.remove('hidden');
             
@@ -575,8 +586,8 @@
                 const qrboxWidth = Math.floor(viewfinderWidth * minEdgePercentage);
                 const qrboxHeight = Math.floor(qrboxWidth * 0.45);
                 return {
-                    width: Math.max(qrboxWidth, 200),
-                    height: Math.max(qrboxHeight, 100)
+                    width: Math.max(qrboxWidth, 180),
+                    height: Math.max(qrboxHeight, 90)
                 };
             };
 
@@ -595,9 +606,7 @@
                     document.querySelector('input[name="searchMode"][value="barcode"]').checked = true;
                     processSearch();
                 },
-                (errorMessage) => {
-                    // Scanning in progress
-                }
+                (errorMessage) => {}
             ).catch(err => {
                 console.error("Scanner start failed:", err);
                 showModalNotice("ไม่สามารถเปิดกล้องได้", "กรุณาอนุญาตให้ใช้งานกล้องบนเบราว์เซอร์ของอุปกรณ์ท่าน");
