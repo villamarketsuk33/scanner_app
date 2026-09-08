@@ -474,9 +474,15 @@
         function resetDisplay() {
             document.getElementById('resultContainer').classList.add('hidden');
             document.getElementById('errorContainer').classList.add('hidden');
-            document.getElementById('productImage').classList.add('hidden');
-            document.getElementById('productImage').src = "";
+            
+            const imageEl = document.getElementById('productImage');
+            imageEl.onerror = null;
+            imageEl.onload = null;
+            imageEl.classList.add('hidden');
+            imageEl.src = "";
+            
             document.getElementById('imageError').classList.add('hidden');
+            document.getElementById('imageLoader').classList.add('hidden');
         }
 
         // --- STREAMING_CHUNK:Querying Google Drive API for product images... ---
@@ -496,16 +502,28 @@
             try {
                 const response = await fetch(`https://www.googleapis.com/drive/v3/files?q=${query}&key=${API_KEY}&fields=files(id,name)`);
                 const data = await response.json();
-                loader.classList.add('hidden');
                 
                 if (data.files && data.files.length > 0) {
                     const fileId = data.files[0].id;
-                    imageEl.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+                    
+                    // Clear previous event listeners to prevent duplicate triggers
+                    imageEl.onerror = null;
+                    imageEl.onload = null;
+
+                    imageEl.onload = function() {
+                        loader.classList.add('hidden');
+                        errorEl.classList.add('hidden');
+                        imageEl.classList.remove('hidden');
+                    };
+
                     imageEl.onerror = function() {
+                        loader.classList.add('hidden');
                         showImageError(fileName);
                     };
-                    imageEl.classList.remove('hidden');
+
+                    imageEl.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
                 } else { 
+                    loader.classList.add('hidden');
                     showImageError(fileName);
                 }
             } catch (error) { 
@@ -520,6 +538,8 @@
             const errorEl = document.getElementById('imageError');
             const errorCodeEl = document.getElementById('imageErrorCode');
             
+            imageEl.onerror = null;
+            imageEl.onload = null;
             imageEl.classList.add('hidden');
             errorEl.classList.remove('hidden');
             if(errorCodeEl) errorCodeEl.textContent = code ? `(${code})` : '';
