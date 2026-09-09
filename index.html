@@ -157,105 +157,102 @@
                     <i class="fas fa-barcode text-3xl sm:text-4xl"></i>
                 </div>
                 <h3 class="text-sm sm:text-base font-bold text-slate-300">พร้อมรับการสแกนตรวจสอบ</h3>
-                <p class="text-[11px] sm:text-xs text-slate-500 mt-1 max-w-xs">ยิงบาร์โค้ดด้วยเครื่องสแกน หรือกดไอคอนกล้องถ่ายรูปเพื่อสแกนผ่านมือถือ</p>
+                <p class="text-[11px] sm:text-xs text-slate-500 mt-1 max-w-xs">ยิงบาร์โค้ดด้วยเครื่องสแกน หรือกดไอคอนกล้องถ่ายรูปเพื่อสแกนผ่านมือถือ/ป้ายราคา</p>
             </div>
 
-            <!-- Product Result Screen Card Container (Responsive Desktop 2-Panel / Mobile 1-Panel Stack) -->
+            <!-- Product Result Screen Card Container (Left Image / Right Product Details) -->
             <div id="resultContainer" class="hidden w-full flex flex-col md:grid md:grid-cols-12 gap-3 sm:gap-4 animate-fade-in">
                 
-                <!-- Left Panel: Product Image & Retail Price Banner -->
-                <div class="md:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 shadow-lg flex md:flex-col gap-3 sm:gap-4 items-center flex-none">
-                    
-                    <!-- Product Image Container -->
-                    <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-full md:h-64 flex-none bg-slate-950 rounded-lg border border-slate-800/80 p-2 flex justify-center items-center relative overflow-hidden shadow-inner">
+                <!-- Left Panel: Product Image ONLY -->
+                <div class="md:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 shadow-lg flex flex-col items-center justify-center min-h-[250px] md:min-h-[380px]">
+                    <div class="w-full h-full min-h-[220px] bg-slate-950 rounded-lg border border-slate-800/80 p-3 flex justify-center items-center relative overflow-hidden shadow-inner">
                         <div id="imageLoader" class="hidden loading-spinner"></div>
                         <img id="productImage" src="" alt="รูปภาพสินค้า" class="max-h-full max-w-full object-contain hidden transition-all">
-                        <div id="imageError" class="text-slate-500 text-[10px] sm:text-xs hidden flex flex-col items-center text-center p-1">
-                            <i class="fas fa-image text-slate-600 text-2xl sm:text-3xl mb-1"></i>
+                        <div id="imageError" class="text-slate-500 text-[10px] sm:text-xs hidden flex flex-col items-center text-center p-2">
+                            <i class="fas fa-image text-slate-600 text-3xl sm:text-4xl mb-2"></i>
                             <span class="font-medium text-slate-500">ไม่พบรูปภาพสินค้า</span>
-                        </div>
-                    </div>
-
-                    <!-- Title & Price Block -->
-                    <div class="flex-1 md:w-full min-w-0 flex flex-col justify-between h-28 sm:h-36 md:h-auto py-0.5 md:gap-3">
-                        <div class="min-w-0">
-                            <span class="inline-block px-1.5 py-0.5 rounded bg-blue-950 text-blue-400 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mb-1 border border-blue-800/50">
-                                PRODUCT NAME
-                            </span>
-                            <h2 id="productName" class="text-xs sm:text-base md:text-lg font-bold text-slate-100 leading-snug line-clamp-3 break-words">
-                                -
-                            </h2>
-                        </div>
-
-                        <!-- Highlighted Big Retail Price Card -->
-                        <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-600 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl shadow-md flex justify-between items-center mt-auto border border-red-500/30">
-                            <div>
-                                <span class="block text-[8px] sm:text-[10px] font-extrabold uppercase text-red-100 leading-none">ราคาปลีก</span>
-                                <span class="text-[8px] sm:text-[10px] text-red-200/80 leading-none font-medium">RETAIL PRICE</span>
-                            </div>
-                            <span id="displayRetailPrice" class="font-black text-base sm:text-2xl md:text-3xl tracking-tight text-white leading-none">-</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Panel: Detailed Metadata & Location Cards Grid -->
-                <div class="md:col-span-7 flex flex-col gap-2.5 sm:gap-3">
+                <!-- Right Panel: Product Name, Retail Price & Metadata -->
+                <div class="md:col-span-7 flex flex-col gap-3">
                     
-                    <!-- Row 1: Key Identifiers (2x2 Grid Mobile / 4 Columns Desktop) -->
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 flex-none">
-                        
-                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 shadow-sm min-w-0 flex flex-col justify-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-blue-400 mb-0.5 truncate">บาร์โค้ด</span>
-                            <span id="displayBarcode" class="font-bold text-slate-100 text-xs sm:text-sm font-mono block break-all leading-tight">-</span>
+                    <!-- Top Block: Product Name & Retail Price Banner -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 sm:p-4 shadow-lg flex flex-col gap-3">
+                        <div class="min-w-0">
+                            <span class="inline-block px-2 py-0.5 rounded bg-blue-950 text-blue-400 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mb-1.5 border border-blue-800/50">
+                                PRODUCT NAME
+                            </span>
+                            <h2 id="productName" class="text-sm sm:text-base md:text-lg lg:text-xl font-black text-slate-100 leading-snug break-words">
+                                -
+                            </h2>
                         </div>
 
-                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 shadow-sm min-w-0 flex flex-col justify-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-emerald-400 mb-0.5 truncate">รหัสสินค้า</span>
-                            <span id="displayProductCode" class="font-bold text-slate-100 text-xs sm:text-sm font-mono block break-all leading-tight">-</span>
+                        <!-- Big Highlighted Retail Price Card -->
+                        <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-600 text-white px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-md flex justify-between items-center border border-red-500/30">
+                            <div>
+                                <span class="block text-[9px] sm:text-[11px] font-extrabold uppercase text-red-100 leading-none">ราคาปลีก</span>
+                                <span class="text-[8px] sm:text-[10px] text-red-200/80 leading-none font-medium">RETAIL PRICE</span>
+                            </div>
+                            <span id="displayRetailPrice" class="font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight text-white leading-none">-</span>
                         </div>
-
-                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 shadow-sm min-w-0 flex flex-col justify-center text-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-slate-400 mb-0.5 truncate">MASTER</span>
-                            <span id="displayMaster" class="font-bold text-slate-200 text-xs sm:text-sm block truncate leading-tight">-</span>
-                        </div>
-
-                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 shadow-sm min-w-0 flex flex-col justify-center text-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-amber-400 mb-0.5 truncate">สถานะ</span>
-                            <span id="displayStatus" class="font-bold text-slate-200 text-xs sm:text-sm block truncate leading-tight">-</span>
-                        </div>
-
                     </div>
 
-                    <!-- Row 2: Department Code & Vendor Details -->
-                    <div class="grid grid-cols-3 gap-2 flex-none">
+                    <!-- Metadata Grid Box -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 sm:p-4 shadow-lg flex flex-col gap-2.5">
                         
-                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 shadow-sm flex flex-col justify-center text-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-purple-400 mb-0.5 truncate">รหัสแผนก</span>
-                            <span id="displayDept" class="font-bold text-purple-300 text-xs sm:text-sm block font-mono">-</span>
+                        <!-- Row 1: Key Identifiers -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 shadow-sm min-w-0 flex flex-col justify-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-blue-400 mb-0.5 truncate">บาร์โค้ด</span>
+                                <span id="displayBarcode" class="font-bold text-slate-100 text-xs sm:text-sm font-mono block break-all leading-tight">-</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 shadow-sm min-w-0 flex flex-col justify-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-emerald-400 mb-0.5 truncate">รหัสสินค้า</span>
+                                <span id="displayProductCode" class="font-bold text-slate-100 text-xs sm:text-sm font-mono block break-all leading-tight">-</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 shadow-sm min-w-0 flex flex-col justify-center text-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-slate-400 mb-0.5 truncate">MASTER</span>
+                                <span id="displayMaster" class="font-bold text-slate-200 text-xs sm:text-sm block truncate leading-tight">-</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 shadow-sm min-w-0 flex flex-col justify-center text-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-amber-400 mb-0.5 truncate">สถานะ</span>
+                                <span id="displayStatus" class="font-bold text-slate-200 text-xs sm:text-sm block truncate leading-tight">-</span>
+                            </div>
                         </div>
 
-                        <div class="col-span-2 bg-slate-900 p-2.5 rounded-lg border border-slate-800 shadow-sm flex flex-col justify-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-orange-400 mb-0.5 truncate">ผู้ขาย (รหัส : ชื่อผู้ขายหลัก)</span>
-                            <span id="displayVendor" class="font-bold text-slate-200 text-xs sm:text-sm block truncate leading-tight">-</span>
+                        <!-- Row 2: Department Code & Vendor Details -->
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 shadow-sm flex flex-col justify-center text-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-purple-400 mb-0.5 truncate">รหัสแผนก</span>
+                                <span id="displayDept" class="font-bold text-purple-300 text-xs sm:text-sm block font-mono">-</span>
+                            </div>
+
+                            <div class="col-span-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 shadow-sm flex flex-col justify-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-orange-400 mb-0.5 truncate">ผู้ขาย (รหัส : ชื่อผู้ขายหลัก)</span>
+                                <span id="displayVendor" class="font-bold text-slate-200 text-xs sm:text-sm block truncate leading-tight">-</span>
+                            </div>
                         </div>
 
-                    </div>
+                        <!-- Row 3: Compact Location WH & Location Shop -->
+                        <div class="grid grid-cols-2 gap-2 mt-0.5">
+                            <div class="bg-slate-950/90 p-2.5 sm:p-3 rounded-lg border-l-4 border-teal-500 border-y border-r border-slate-800/80 flex flex-col justify-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-teal-400 mb-0.5">
+                                    <i class="fas fa-warehouse mr-1"></i>LOCATION (คลังสินค้า)
+                                </span>
+                                <span id="displayLocationWH" class="font-bold text-teal-200 text-xs sm:text-sm font-mono break-all leading-snug">-</span>
+                            </div>
 
-                    <!-- Row 3: Location WH & Location Shop -->
-                    <div class="grid grid-cols-2 gap-2 flex-1 min-h-[80px]">
-                        
-                        <div class="bg-slate-900/90 p-3 rounded-lg border-l-4 border-teal-500 border-y border-r border-slate-800 flex flex-col justify-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-teal-400 mb-1">
-                                <i class="fas fa-warehouse mr-1"></i>LOCATION (คลังสินค้า)
-                            </span>
-                            <span id="displayLocationWH" class="font-bold text-teal-200 text-xs sm:text-base font-mono break-all leading-snug">-</span>
-                        </div>
-
-                        <div class="bg-slate-900/90 p-3 rounded-lg border-l-4 border-emerald-500 border-y border-r border-slate-800 flex flex-col justify-center">
-                            <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-emerald-400 mb-1">
-                                <i class="fas fa-store mr-1"></i>LOCATION (หน้าร้าน)
-                            </span>
-                            <span id="displayLocationShop" class="font-bold text-emerald-200 text-xs sm:text-base font-mono break-all leading-snug">-</span>
+                            <div class="bg-slate-950/90 p-2.5 sm:p-3 rounded-lg border-l-4 border-emerald-500 border-y border-r border-slate-800/80 flex flex-col justify-center">
+                                <span class="block text-[9px] sm:text-[10px] font-bold uppercase text-emerald-400 mb-0.5">
+                                    <i class="fas fa-store mr-1"></i>LOCATION (หน้าร้าน)
+                                </span>
+                                <span id="displayLocationShop" class="font-bold text-emerald-200 text-xs sm:text-sm font-mono break-all leading-snug">-</span>
+                            </div>
                         </div>
 
                     </div>
@@ -371,6 +368,15 @@
             inputEl.focus();
         }
 
+        // Helper function: Clean GS1/AIM symbology identifiers (e.g. ]C1, ]e0, ]E0) from scanned barcodes
+        function sanitizeBarcode(rawText) {
+            if (!rawText) return '';
+            let cleaned = rawText.toString().trim();
+            // Remove AIM symbology prefix (starts with ] followed by 2 alphanumeric characters, e.g. ]C1)
+            cleaned = cleaned.replace(/^\][a-zA-Z0-9]{2}/, '');
+            return cleaned.trim();
+        }
+
         function fetchSheetData() {
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
@@ -420,9 +426,12 @@
 
         async function processSearch() {
             const inputEl = document.getElementById('barcodeInput');
-            const rawInput = inputEl.value.trim();
+            let rawInput = inputEl.value.trim();
             if (!rawInput || !isDataLoaded) return;
             
+            // Clean AIM Symbology identifier (e.g. ]C1 from shelf price tags)
+            rawInput = sanitizeBarcode(rawInput);
+
             resetDisplay();
             
             const selectedMode = document.querySelector('input[name="searchMode"]:checked').value;
@@ -467,7 +476,7 @@
                         foundRow = nextRow;
                     }
                 }
-                showResult(foundRow);
+                showResult(foundRow, rawInput);
             } else {
                 showError(rawInput, (selectedMode === 'barcode' ? 'บาร์โค้ด' : 'รหัสสินค้า'));
             }
@@ -476,12 +485,12 @@
             inputEl.focus(); 
         }
 
-        function showResult(row) {
+        function showResult(row, displayBarcodeValue) {
             document.getElementById('initialState').classList.add('hidden');
             document.getElementById('resultContainer').classList.remove('hidden');
             document.getElementById('errorContainer').classList.add('hidden');
 
-            const barcodeVal = (row[COL_INDEX.BARCODE] || "-").toString().trim();
+            const barcodeVal = displayBarcodeValue || (row[COL_INDEX.BARCODE] || "-").toString().trim();
             const pCode = (row[COL_INDEX.PRODUCT_CODE] || "-").toString().trim().padStart(7, '0');
             const rPrice = row[COL_INDEX.RETAIL_PRICE] || "-";
             
@@ -579,7 +588,9 @@
                 { facingMode: "environment" },
                 { fps: 10, qrbox: { width: 260, height: 120 } },
                 (decodedText) => {
-                    document.getElementById('barcodeInput').value = decodedText;
+                    // Clean prefix such as ]C1 automatically
+                    const cleanedCode = sanitizeBarcode(decodedText);
+                    document.getElementById('barcodeInput').value = cleanedCode;
                     stopScanner();
                     
                     // Switch to barcode search mode automatically
@@ -608,8 +619,7 @@
                 });
             } else {
                 document.getElementById('scannerOverlay').classList.add('hidden');
-                const inputEl = document.getElementById('barcodeInput');
-                if (inputEl) inputEl.focus();
+                document.getElementById('barcodeInput').focus();
             }
         }
     </script>
