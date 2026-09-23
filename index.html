@@ -180,7 +180,7 @@
                     <!-- Product Image Box (Left Side) -->
                     <div class="w-[105px] h-[105px] sm:w-36 sm:h-36 bg-slate-50 rounded-lg border border-slate-200 p-1.5 flex justify-center items-center relative overflow-hidden flex-none">
                         <div id="imageLoader" class="hidden loading-spinner"></div>
-                        <img id="productImage" src="" alt="รูปภาพสินค้า" class="max-h-full max-w-full object-contain hidden transition-all">
+                        <img id="productImage" src="" alt="รูปภาพสินค้า" class="max-h-full max-w-full object-contain hidden transition-transform duration-200 cursor-pointer hover:scale-105 active:scale-95" onclick="openImageModal(this.src)" title="คลิกเพื่อดูรูปขนาดเต็ม">
                         <div id="imageError" class="text-slate-400 text-[9px] sm:text-xs hidden flex flex-col items-center text-center p-1">
                             <i class="fas fa-image text-slate-300 text-2xl sm:text-3xl mb-1"></i>
                             <span class="font-medium text-slate-500 text-[9px] sm:text-xs">ไม่พบรูปภาพ</span>
@@ -303,6 +303,16 @@
         </div>
     </div>
 
+    <!-- 🌟 Image Fullscreen Lightbox Modal 🌟 -->
+    <div id="imageModal" class="hidden fixed inset-0 z-[100] bg-slate-900/95 flex justify-center items-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <!-- Close Button -->
+        <button type="button" onclick="closeImageModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-slate-300 hover:text-white bg-black/30 hover:bg-black/60 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex justify-center items-center transition-all z-50">
+            <i class="fas fa-times text-xl sm:text-2xl"></i>
+        </button>
+        <!-- Enlarged Image -->
+        <img id="enlargedImage" src="" alt="รูปภาพขนาดเต็ม" class="max-h-[90vh] max-w-[90vw] sm:max-h-[85vh] sm:max-w-[85vw] object-contain transform scale-95 transition-transform duration-300 drop-shadow-2xl rounded-xl">
+    </div>
+
     <script>
         // --- ⚙️ SYSTEM CONFIGURATION ---
         const SHEET_ID = '1W4-vvVaM54oKXpT0JV5ZrD806tBNZ5PJjmJs3cZYITM'; 
@@ -369,6 +379,16 @@
                 const scannerOverlay = document.getElementById('scannerOverlay');
                 if (scannerOverlay && !scannerOverlay.classList.contains('hidden')) return;
                 
+                // --- จัดการคลิกปิดรูปภาพขยายเมื่อคลิกที่พื้นหลัง ---
+                const imageModal = document.getElementById('imageModal');
+                if (imageModal && !imageModal.classList.contains('hidden')) {
+                    // หากคลิกที่ตัว Modal (พื้นหลังดำ) ไม่ใช่ที่รูปภาพ ให้ปิดรูป
+                    if (e.target === imageModal) {
+                        closeImageModal();
+                    }
+                    return; // ยกเลิกการคลิกอื่นๆ ขณะเปิดรูปขยายอยู่
+                }
+
                 const dropdown = document.getElementById('nameSearchResults');
                 if (dropdown && !dropdown.classList.contains('hidden')) {
                     if (!e.target.closest('#inputContainer')) {
@@ -695,6 +715,43 @@
                 document.getElementById('scannerOverlay').classList.add('hidden');
                 document.getElementById('barcodeInput').focus();
             }
+        }
+
+        function openImageModal(imgSrc) {
+            if (!imgSrc) return;
+            
+            const modal = document.getElementById('imageModal');
+            const enlargedImg = document.getElementById('enlargedImage');
+            
+            enlargedImg.src = imgSrc;
+            modal.classList.remove('hidden');
+            
+            // รอจังหวะเรนเดอร์เพื่อแสดงแอนิเมชัน
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                enlargedImg.classList.remove('scale-95');
+                enlargedImg.classList.add('scale-100');
+            });
+            
+            // ล็อกหน้าจอหลักไม่ให้เลื่อนเมื่อเปิดรูป
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            const enlargedImg = document.getElementById('enlargedImage');
+            
+            // เริ่มแอนิเมชันปิด
+            modal.classList.add('opacity-0');
+            enlargedImg.classList.remove('scale-100');
+            enlargedImg.classList.add('scale-95');
+            
+            // รอจนแอนิเมชันจบ (300ms ตรงกับ duration-300 ของ Tailwind) ค่อยซ่อน
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                enlargedImg.src = ''; // เคลียร์รูปออกจากหน่วยความจำ
+                document.body.classList.remove('overflow-hidden'); // ปลดล็อกหน้าจอให้เลื่อนได้ปกติ
+            }, 300); 
         }
     </script>
 </body>
