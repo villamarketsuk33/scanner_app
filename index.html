@@ -160,10 +160,10 @@
 
     <!-- Main Content Area -->
     <main class="flex-1 min-h-0 relative bg-slate-50 p-2 sm:p-4 flex flex-col justify-start items-center overflow-y-auto">
-        <div class="w-full max-w-4xl my-auto">
+        <div class="w-full max-w-4xl">
             
             <!-- Default Initial Empty State -->
-            <div id="initialState" class="py-8 sm:py-12 px-4 text-center text-slate-500 flex flex-col items-center justify-center">
+            <div id="initialState" class="mt-12 sm:mt-24 py-8 sm:py-12 px-4 text-center text-slate-500 flex flex-col items-center justify-center">
                 <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border border-slate-200 shadow-sm text-blue-500 flex items-center justify-center mb-3">
                     <i class="fas fa-barcode text-2xl sm:text-3xl"></i>
                 </div>
@@ -271,10 +271,8 @@
             </div>
 
             <!-- Error Result Display Screen Card -->
-            <div id="errorContainer" class="hidden w-full bg-red-50 border border-red-200 rounded-xl p-6 sm:p-8 text-center shadow-sm animate-fade-in my-auto">
+            <div id="errorContainer" class="hidden w-full bg-red-50 border border-red-200 rounded-xl p-6 sm:p-8 text-center shadow-sm animate-fade-in mt-12">
                 <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-100 border border-red-200 text-red-600 flex items-center justify-center mx-auto mb-3">
-                    <i class="fas fa-exclamation-triangle text-xl sm:text-3xl"></i>
-                </div>
                 <h3 class="text-sm sm:text-lg font-bold text-red-900">ไม่พบข้อมูลในระบบ</h3>
                 <p id="errorText" class="text-xs sm:text-sm text-red-700 mt-1 max-w-md mx-auto">
                     ไม่พบข้อมูลบาร์โค้ดที่คุณต้องการค้นหา
