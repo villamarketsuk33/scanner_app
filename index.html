@@ -344,7 +344,7 @@
             VENDOR_ID: -1, 
             VENDOR_NAME: -1, 
             RETAIL_PRICE: -1,
-            STOCK: -1,
+            STOCK: 25, // คอลัมน์ Z (Index 25)
             MASTER: 2, 
             STATUS_ITEM: 21, 
             LOCATION_WH: 40, 
@@ -634,7 +634,7 @@
             const vendorName = (row[COL_INDEX.VENDOR_NAME] || "-").toString().trim();
             document.getElementById('displayVendor').textContent = `${vendorId} : ${vendorName}`;
             
-            const stockVal = (COL_INDEX.STOCK !== -1 && row[COL_INDEX.STOCK] !== undefined && row[COL_INDEX.STOCK] !== "") ? row[COL_INDEX.STOCK].toString().trim() : "-";
+            const stockVal = (COL_INDEX.STOCK !== -1 && row[COL_INDEX.STOCK] !== undefined && row[COL_INDEX.STOCK].toString().trim() !== "") ? row[COL_INDEX.STOCK].toString().trim() : "-";
             document.getElementById('displayStock').textContent = stockVal;
             
             document.getElementById('displayMaster').textContent = row[COL_INDEX.MASTER] || "-";
